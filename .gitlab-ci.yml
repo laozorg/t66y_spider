@@ -1,0 +1,16 @@
+stages:
+  - deploy
+
+deploy:
+  stage: deploy
+  script:
+    # 编译镜像
+    - docker build -t btcrawler:latest -f DockerFile .
+    #删除正在运行的镜像
+    - docker rm -f btcrawler || true
+    #启动应用
+    - docker run --name btcrawler btcrawler
+  only:
+    - master
+  tags:
+    - python_BTCrawler
